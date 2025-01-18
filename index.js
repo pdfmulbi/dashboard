@@ -75,19 +75,25 @@ document.addEventListener("DOMContentLoaded", () => {
     window.deleteUser = async (id) => {
         if (!confirm("Are you sure you want to delete this user?")) return;
         try {
+            // Panggil API DELETE dengan body JSON
             const response = await fetch(apiUrl, {
                 method: "DELETE",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json" // Pastikan format JSON
                 },
                 body: JSON.stringify({
-                    id
+                    id: id // Properti "id" sesuai backend
                 }),
             });
+
+            // Jika respons tidak berhasil, lemparkan error
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
+
+            // Berikan notifikasi sukses dan refresh daftar pengguna
             alert("User deleted successfully!");
-            fetchUsers();
+            fetchUsers(); // Refresh daftar pengguna setelah penghapusan
         } catch (error) {
+            // Tampilkan pesan error
             alert(`Failed to delete user. ${error.message}`);
         }
     };
