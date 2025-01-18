@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const userTable = document.querySelector("#userTable tbody");
     const apiUrl = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/users";
 
-    // Fetch and display users
     async function fetchUsers() {
         try {
             const response = await fetch(apiUrl);
@@ -21,12 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 </tr>
             `).join('');
         } catch (error) {
-            console.error("Error fetching users:", error);
             alert(`Failed to load users. ${error.message}`);
         }
     }
 
-    // Handle form submission
     userForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const id = document.getElementById("userId").value;
@@ -34,32 +31,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("userEmail").value;
         const password = document.getElementById("userPassword").value;
 
-        const userData = { name, email, password };
+        const userData = {
+            name,
+            email,
+            password,
+            id
+        };
 
         try {
-            let response;
-            if (id) {
-                // Update user
-                response = await fetch(apiUrl, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ ...userData, id }) // Backend expects `id`
-                });
-            } else {
-                // Create user
-                response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(userData)
-                });
-            }
-
+            const method = id ? "PUT" : "POST";
+            const response = await fetch(apiUrl, {
+                method,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData),
+            });
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
             alert("User saved successfully!");
             userForm.reset();
             fetchUsers();
         } catch (error) {
-            console.error("Error saving user:", error);
             alert(`Failed to save user. ${error.message}`);
         }
     });
@@ -67,15 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Edit user
     window.editUser = async (id) => {
         try {
-            const response = await fetch(`${apiUrl}?id=${id}`); // Backend GetOneUser should support fetching by ID
+            const response = await fetch(`${apiUrl}?id=${id}`);
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
             const user = await response.json();
             document.getElementById("userId").value = user._id;
             document.getElementById("userName").value = user.name;
             document.getElementById("userEmail").value = user.email;
-            document.getElementById("userPassword").value = ""; // Password left blank for security
+            document.getElementById("userPassword").value = "";
         } catch (error) {
-            console.error("Error fetching user details:", error);
             alert(`Failed to load user details. ${error.message}`);
         }
     };
@@ -86,18 +77,20 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const response = await fetch(apiUrl, {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id }) // Backend expects `id`
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id
+                }),
             });
             if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
             alert("User deleted successfully!");
             fetchUsers();
         } catch (error) {
-            console.error("Error deleting user:", error);
             alert(`Failed to delete user. ${error.message}`);
         }
     };
 
-    // Initial fetch
     fetchUsers();
 });
