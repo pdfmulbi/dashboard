@@ -72,34 +72,34 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Delete user
-   // Delete user
-window.deleteUser = async (_id) => {
-    if (!confirm("Are you sure you want to delete this user?")) return;
-    console.log("Deleting user with _id:", _id); // Log untuk debugging
-    try {
-        // Panggil API DELETE ke backend
-        const response = await fetch(apiUrl, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json", // Pastikan format JSON
-            },
-            body: JSON.stringify({
-                id: _id, // Kirim _id sebagai id ke backend
-            }),
-        });
+    window.deleteUser = async (_id) => {
+        if (!confirm("Are you sure you want to delete this user?")) return;
+        console.log("Deleting user with _id:", _id); // Log for debugging
+        try {
+            // Send DELETE request to backend
+            const response = await fetch(apiUrl, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json", // Ensure JSON format
+                },
+                body: JSON.stringify({
+                    id: _id, // Send _id as "id" to backend
+                }),
+            });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Error response from server:", errorData); // Log error untuk debugging
-            throw new Error(`Error ${response.status}: ${errorData.message || response.statusText}`);
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Error response from server:", errorData); // Log error for debugging
+                throw new Error(`Error ${response.status}: ${errorData.message || response.statusText}`);
+            }
+
+            const responseData = await response.json(); // Parse successful response
+            alert(responseData.message || "User deleted successfully!"); // Show server response message
+            fetchUsers(); // Refresh the user list
+        } catch (error) {
+            console.error("Failed to delete user:", error); // Log error for debugging
+            alert(`Failed to delete user. ${error.message}`);
         }
-
-        alert("User deleted successfully!");
-        fetchUsers(); // Refresh daftar pengguna
-    } catch (error) {
-        console.error("Failed to delete user:", error); // Log error untuk debugging
-        alert(`Failed to delete user. ${error.message}`);
-    }
-};
+    };
     fetchUsers();
 });
