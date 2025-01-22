@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>User Management Dashboard</title>
     <link rel="stylesheet" href="index.css">
-    <script src="index.js" defer></script>
 </head>
+
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">
-            <a href="#" class="logo-text">PDF ❤️ Merger</a>
-        </div>
+    <header>
+        <h1>User Management Dashboard</h1>
     </header>
+    <main>
+        <section id="user-list-section">
+            <h2>All Users</h2>
+            <table id="user-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Is Support</th>
+                        <th>Last Merge Time</th>
+                        <th>Merge Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically populated -->
+                </tbody>
+            </table>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <h2>User Management</h2>
-        <form id="userForm">
-            <input type="hidden" id="userId">
-            <input type="text" id="userName" placeholder="Name" required>
-            <input type="email" id="userEmail" placeholder="Email" required>
-            <input type="password" id="userPassword" placeholder="Password" required>
-            <button type="submit">Save User</button>
-        </form>
-
-        <table id="userTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Merge Count</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        </section>
+        <section id="user-form-section">
+            <h2 id="form-title">Add / Edit User</h2>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+                <label for="isSupport">Is Support:</label>
+                <input type="checkbox" id="isSupport">
+                <button type="submit">Save</button>
+            </form>
+        </section>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; Muhammad Haitsam Izzuddin Azman & Resqi Aulia Gita Utami</p>
+        <p>© Muhammad Haitsam Izzuddin Azman &amp; Resqi Aulia Gita Utami</p>
     </footer>
+
+    <script src="index.js"></script>
 </body>
+
 </html>

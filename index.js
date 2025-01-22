@@ -1,107 +1,128 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const userForm = document.getElementById("userForm");
-    const userTable = document.querySelector("#userTable tbody");
-    const apiUrl = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger/pdfm/users";
+const API_BASE = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger"; // Base URL API
 
-    async function fetchUsers() {
-        try {
-            const response = await fetch(apiUrl);
-            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-            const users = await response.json();
-            userTable.innerHTML = users.map(user => `
-                <tr>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
-                    <td>${user.mergeCount || 0}</td>
-                    <td>
-                        <button class="edit" onclick="editUser('${user._id}')">Edit</button>
-                        <button class="delete" onclick="deleteUser('${user._id}')">Delete</button>
-                    </td>
-                </tr>
-            `).join('');            
-        } catch (error) {
-            alert(`Failed to load users. ${error.message}`);
-        }
+// Fetch all users
+async function fetchUsers() {
+    try {
+        const response = await fetch(`${API_BASE}/pdfm/get/users`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            mode: "cors",
+        });
+        if (!response.ok) throw new Error(`Failed to fetch users: ${response.status}`);
+        const users = await response.json();
+        populateUserTable(users);
+    } catch (error) {
+        console.error("Error fetching users:", error);
     }
+}
 
-    userForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const id = document.getElementById("userId").value;
-        const name = document.getElementById("userName").value;
-        const email = document.getElementById("userEmail").value;
-        const password = document.getElementById("userPassword").value;
-
-        const userData = {
-            name,
-            email,
-            password,
-            id
-        };
-
-        try {
-            const method = id ? "PUT" : "POST";
-            const response = await fetch(apiUrl, {
-                method,
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(userData),
-            });
-            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-            alert("User saved successfully!");
-            userForm.reset();
-            fetchUsers();
-        } catch (error) {
-            alert(`Failed to save user. ${error.message}`);
-        }
+// Populate the user table
+function populateUserTable(users) {
+    const tableBody = document.querySelector("#user-table tbody");
+    tableBody.innerHTML = ""; // Clear existing rows
+    users.forEach((user) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+    <td>${user.name}</td>
+    <td>${user.email}</td>
+    <td>${user.isSupport ? "Yes" : "No"}</td>
+    <td>${new Date(user.lastMergeTime).toLocaleString()}</td>
+    <td>${user.mergeCount}</td>
+    <td>
+        <button onclick="editUser('${user._id}')">Edit</button>
+        <button onclick="deleteUser('${user._id}')">Delete</button>
+    </td>
+    `;
+        tableBody.appendChild(row);
     });
+}
 
-    // Edit user
-    window.editUser = async (id) => {
-        try {
-            const response = await fetch(`${apiUrl}?id=${id}`);
-            if (!response.ok) throw new Error(`Error ${response.status}: ${response.statusText}`);
-            const user = await response.json();
-            document.getElementById("userId").value = user._id;
-            document.getElementById("userName").value = user.name;
-            document.getElementById("userEmail").value = user.email;
-            document.getElementById("userPassword").value = "";
-        } catch (error) {
-            alert(`Failed to load user details. ${error.message}`);
-        }
+// Save a new or edited user
+async function saveUser(event) {
+    event.preventDefault();
+    const userId = document.getElementById("user-id").value; // Hidden input for ID
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const isSupport = document.getElementById("isSupport").checked;
+
+    const payload = {
+        name,
+        email,
+        password,
+        isSupport
     };
 
-    // Delete user
-// Delete user
-    window.deleteUser = async (id) => {
-        if (!confirm("Are you sure you want to delete this user?")) return;
-        console.log("Deleting user with id:", id); // Log for debugging
-        try {
-            // Kirim request DELETE ke backend
-            const response = await fetch(apiUrl, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json", // Pastikan format JSON
-                },
-                body: JSON.stringify({
-                    id: id, // Kirim id sebagai "id" ke backend
-                }),
-            });
+    const method = userId ? "PUT" : "POST";
+    const url = userId ?
+        `${API_BASE}/pdfm/update/users?id=${userId}` :
+        `${API_BASE}/pdfm/create/users`;
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("Error response from server:", errorData); // Log error untuk debugging
-                throw new Error(`Error ${response.status}: ${errorData.message || response.statusText}`);
-            }
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload),
+            mode: "cors",
+        });
+        if (!response.ok) throw new Error(`Failed to save user: ${response.status}`);
+        document.getElementById("user-form").reset();
+        fetchUsers();
+    } catch (error) {
+        console.error("Error saving user:", error);
+    }
+}
 
-            const responseData = await response.json(); // Parse response sukses
-            alert(responseData.message || "User deleted successfully!"); // Tampilkan pesan dari server
-            fetchUsers(); // Refresh daftar pengguna
-        } catch (error) {
-            console.error("Failed to delete user:", error); // Log error untuk debugging
-            alert(`Failed to delete user. ${error.message}`);
-        }
-    };
+// Delete a user
+async function deleteUser(userId) {
+    try {
+        const payload = { id: userId };
+        const response = await fetch(`${API_BASE}/pdfm/delete/users`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+            mode: "cors",
+        });
+        if (!response.ok) throw new Error(`Failed to delete user: ${response.status}`);
+        fetchUsers(); // Refresh table
+    } catch (error) {
+        console.error("Error deleting user:", error);
+    }
+}
 
-    fetchUsers();
-});
+
+// Edit a user
+async function editUser(userId) {
+    try {
+        const response = await fetch(`${API_BASE}/pdfm/getone/users?id=${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            mode: "cors",
+        });
+        if (!response.ok) throw new Error(`Failed to fetch user details: ${response.status}`);
+        const user = await response.json();
+
+        // Isi form dengan data user
+        document.getElementById("user-id").value = user.id; // Hidden input untuk ID
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+        document.getElementById("password").value = ""; // Jangan isi password
+        document.getElementById("isSupport").checked = user.isSupport;
+    } catch (error) {
+        console.error("Error editing user:", error);
+    }
+}
+
+// Event listener untuk form submit
+document.getElementById("user-form").addEventListener("submit", saveUser);
+
+// Load semua user saat halaman dimuat
+fetchUsers();
