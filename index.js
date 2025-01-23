@@ -89,7 +89,7 @@ async function deleteUser(userId) {
 // Edit a user
 async function editUser(userId) {
     try {
-        const response = await fetch(`${API_BASE}/pdfm/getone/users?id=${userId}`, {
+        const response = await fetch(`${API_BASE}/pdfm/getoneadmin/users?id=${userId}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             mode: "cors",
