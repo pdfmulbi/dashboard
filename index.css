@@ -3,117 +3,168 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Body */
 body {
-    background-color: #f4f4f9;
+    background-color: #f8f9fa;
     color: #333;
 }
 
 /* Header */
-.header {
-    background-color: #fff;
-    padding: 1rem;
+header {
+    color: #e53e3e;
+    background-color: whitesmoke;
     text-align: center;
-    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+    position: sticky;
+    /* Membuat header tetap berada di atas */
+    top: 0;
+    /* Menentukan jarak dari atas layar */
+    z-index: 1000;
+    /* Memastikan header berada di atas elemen lain */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Menambahkan efek bayangan */
 }
 
 .logo-text {
-    color: #e53e3e;
     text-decoration: none;
+    /* Hilangkan garis bawah */
+    color: #e53e3e;
+    /* Warna merah untuk logo */
+    font-size: 18px;
+    /* Ukuran font konsisten */
     font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    /* Logo dan ikon sejajar vertikal */
+    gap: 5px;
+    /* Jarak antara teks dan ikon */
 }
 
-/* Main Content */
-.main-content {
-    padding: 2rem;
+.logo-text:hover {
+    opacity: 0.8;
+    /* Efek hover */
+}
+
+.heart {
+    color: red;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 30px;
+}
+
+section {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex: 1;
+    min-width: 300px;
+    overflow: hidden;
+}
+
+#user-list-section {
+    flex: 2;
 }
 
 h2 {
-    margin-bottom: 1rem;
-}
-
-form {
-    margin-bottom: 2rem;
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-form input, form button {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-form button {
-    background-color: #e53e3e;
-    color: white;
-    cursor: pointer;
-}
-
-/* Button Styles */
-button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
+    margin-bottom: 20px;
+    font-size: 1.2em;
     font-weight: bold;
-    margin: 0 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: #333;
 }
 
-button:hover {
-    opacity: 0.9;
-}
-
-/* Save Button */
-form button {
-    background-color: #e53e3e;
-    color: white;
-}
-
-/* Edit Button */
-button.edit {
-    background-color: #3cce31;
-    color: white;
-}
-
-/* Delete Button */
-button.delete {
-    background-color: #e53e3e;
-    color: white;
-}
-
-/* Table */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
-}
-
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 table th {
-    background-color: #f4f4f9;
+    background-color: #ff5252;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
 }
 
-/* Footer */
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+button.btn-primary {
+    background-color: #ff5252;
+    color: white;
+}
+
+button.btn-primary:hover {
+    background-color: #e64545;
+}
+
+button.edit {
+    background-color: #4caf50;
+    color: white;
+}
+
+button.edit:hover {
+    background-color: #43a047;
+}
+
+button.delete {
+    background-color: #f44336;
+    color: white;
+}
+
+button.delete:hover {
+    background-color: #e53935;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    margin-top: 20px;
+}
+
 .footer {
+    background-color: #f8f9fa;
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9em;
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    padding: 10px 0;
 }
