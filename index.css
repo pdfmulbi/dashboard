@@ -7,6 +7,7 @@
 }
 
 body {
+<<<<<<< HEAD
     background-color: #f8f9fa;
     color: #333;
 }
@@ -77,11 +78,39 @@ h2 {
     font-size: 1.2em;
     font-weight: bold;
     color: #333;
+=======
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+header {
+    background-color: #3a86ff;
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+}
+
+main {
+    display: flex;
+    gap: 2em;
+    padding: 2em;
+}
+
+section {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1.5em;
+    flex: 1;
+>>>>>>> 53285ca73fbe6d911a1f715211206dd1c562917a
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+<<<<<<< HEAD
     border-radius: 8px;
     overflow: hidden;
 }
@@ -138,16 +167,47 @@ button.delete {
 
 button.delete:hover {
     background-color: #e53935;
+=======
+}
+
+table th,
+table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table th {
+    background-color: #3a86ff;
+    color: white;
+}
+
+button {
+    background-color: #3a86ff;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: #0056b3;
+>>>>>>> 53285ca73fbe6d911a1f715211206dd1c562917a
 }
 
 form label {
     display: block;
+<<<<<<< HEAD
     margin-top: 15px;
     font-weight: bold;
+=======
+    margin-top: 1em;
+>>>>>>> 53285ca73fbe6d911a1f715211206dd1c562917a
 }
 
 form input {
     width: 100%;
+<<<<<<< HEAD
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ddd;
@@ -156,6 +216,16 @@ form input {
 
 form button {
     margin-top: 20px;
+=======
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+form button {
+    margin-top: 1em;
+>>>>>>> 53285ca73fbe6d911a1f715211206dd1c562917a
 }
 
 .footer {
@@ -167,4 +237,51 @@ form button {
     position: fixed;
     bottom: 0;
     width: 100%;
+<<<<<<< HEAD
 }
+=======
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+/* Tambahkan hover effect pada tabel */
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Buat tombol lebih responsif */
+button {
+    transition: background-color 0.3s ease;
+}
+
+/* Tombol Edit dan Delete dengan warna berbeda */
+button.edit {
+    background-color: #28a745;
+}
+
+button.edit:hover {
+    background-color: #218838;
+}
+
+button.delete {
+    background-color: #dc3545;
+}
+
+button.delete:hover {
+    background-color: #c82333;
+}
+
+/* Gaya tambahan untuk card layout */
+section {
+    margin-bottom: 1em;
+}
+
+header {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+>>>>>>> 53285ca73fbe6d911a1f715211206dd1c562917a
