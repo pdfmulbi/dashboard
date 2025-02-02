@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!userData || userData.email !== "admin@pdfm.com") {
         alert("Access denied! Only admin can access this page.");
         window.location.href = "https://pdfmulbi.github.io/";
-    }
+    }
 });
 
 // Fetch all users
