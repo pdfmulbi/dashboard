@@ -1,19 +1,33 @@
-const API_BASE = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger"; // Base URL API
-document.addEventListener("DOMContentLoaded", function () {
-    const isAdmin = localStorage.getItem("isAdmin");
+const API_BASE = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger";
 
-    if (isAdmin !== "true") {
+// Fungsi untuk mengecek apakah pengguna adalah admin
+function checkAdminAccess() {
+    const token = localStorage.getItem("authToken");
+    const isAdmin = localStorage.getItem("isAdmin");
+    const userEmail = localStorage.getItem("userEmail"); // Ambil email user
+
+    if (!token || isAdmin !== "true" || userEmail !== "admin@pdfm.com") {
         alert("Akses ditolak! Anda bukan admin.");
         window.location.href = "https://pdfmulbi.github.io/";
     }
+}
+
+// Jalankan validasi admin saat halaman dimuat
+document.addEventListener("DOMContentLoaded", function () {
+    checkAdminAccess();
+    fetchUsers();
 });
 
-// Fetch all users
+// Fetch all users dengan autentikasi
 async function fetchUsers() {
     try {
+        const token = localStorage.getItem("authToken");
         const response = await fetch(`${API_BASE}/pdfm/get/users`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             mode: "cors",
         });
         if (!response.ok) throw new Error(`Failed to fetch users: ${response.status}`);
@@ -45,9 +59,10 @@ function populateUserTable(users) {
     });
 }
 
-// Save a new or edited user
+// Save a new or edited user with authentication
 async function saveUser(event) {
     event.preventDefault();
+    const token = localStorage.getItem("authToken");
     const userId = document.getElementById("user-id").value;
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
@@ -65,7 +80,10 @@ async function saveUser(event) {
     try {
         const response = await fetch(url, {
             method: method,
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify(payload),
             mode: "cors",
         });
@@ -77,13 +95,17 @@ async function saveUser(event) {
     }
 }
 
-// Delete a user
+// Delete a user with authentication
 async function deleteUser(userId) {
     try {
+        const token = localStorage.getItem("authToken");
         const payload = { id: userId };
         const response = await fetch(`${API_BASE}/pdfm/delete/users`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify(payload),
             mode: "cors",
         });
@@ -94,12 +116,16 @@ async function deleteUser(userId) {
     }
 }
 
-// Edit a user
+// Edit a user with authentication
 async function editUser(userId) {
     try {
+        const token = localStorage.getItem("authToken");
         const response = await fetch(`${API_BASE}/pdfm/getoneadmin/users?id=${userId}`, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
             mode: "cors",
         });
         if (!response.ok) throw new Error(`Failed to fetch user details: ${response.status}`);
