@@ -1,4 +1,14 @@
 const API_BASE = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger"; // Base URL API
+document.addEventListener("DOMContentLoaded", function () {
+    // Ambil data user dari localStorage
+    const userData = JSON.parse(localStorage.getItem("userData"));
+
+    // Jika user tidak ada atau bukan admin, redirect ke halaman utama
+    if (!userData || userData.email !== "admin@pdfm.com") {
+        alert("Access denied! Only admin can access this page.");
+        window.location.href = "https://pdfmulbi.github.io/";
+    }
+});
 
 // Fetch all users
 async function fetchUsers() {
