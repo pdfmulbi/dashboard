@@ -4,9 +4,8 @@ const API_BASE = "https://asia-southeast2-pdfulbi.cloudfunctions.net/pdfmerger";
 function checkAdminAccess() {
     const token = localStorage.getItem("authToken");
     const isAdmin = localStorage.getItem("isAdmin");
-    const userEmail = localStorage.getItem("userEmail"); // Ambil email user
 
-    if (!token || isAdmin !== "true" || userEmail !== "admin@pdfm.com") {
+    if (!token || isAdmin !== "true") {
         alert("Akses ditolak! Anda bukan admin.");
         window.location.href = "https://pdfmulbi.github.io/";
     }
@@ -143,6 +142,3 @@ async function editUser(userId) {
 
 // Initialize event listeners
 document.getElementById("user-form").addEventListener("submit", saveUser);
-
-// Load all users on page load
-fetchUsers();
