@@ -47,8 +47,8 @@ function populateUserTable(users) {
             <td>${user.name}</td>
             <td>${user.email}</td>
             <td>${user.isSupport ? "Yes" : "No"}</td>
-            <td>${new Date(user.lastMergeTime).toLocaleString()}</td>
-            <td>${user.mergeCount}</td>
+            <td>${user.createdAt}</td>
+            <td>${user.updatedAt}</td>
             <td>
                 <button class="edit" onclick="editUser('${user.id}')">Edit</button>
                 <button class="delete" onclick="deleteUser('${user.id}')">Delete</button>
