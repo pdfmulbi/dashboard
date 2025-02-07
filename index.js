@@ -5,16 +5,16 @@ function checkAdminAccess() {
     const token = localStorage.getItem("authToken");
     const isAdmin = localStorage.getItem("isAdmin");
 
-    // if (!token || isAdmin !== "true") {
-    //     Swal.fire({
-    //         icon: "error",
-    //         title: "Akses Ditolak!",
-    //         text: "Anda bukan admin.",
-    //         confirmButtonText: "OK"
-    //     }).then(() => {
-    //         window.location.href = "https://pdfmulbi.github.io/";
-    //     });
-    // }
+    if (!token || isAdmin !== "true") {
+        Swal.fire({
+            icon: "error",
+            title: "Akses Ditolak!",
+            text: "Anda bukan admin.",
+            confirmButtonText: "OK"
+        }).then(() => {
+            window.location.href = "https://pdfmulbi.github.io/";
+        });
+    }
 }
 
 // Jalankan validasi admin saat halaman dimuat
